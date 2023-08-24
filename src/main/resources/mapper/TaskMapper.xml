@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aipainting.mapper.TaskMapper">
+    <resultMap type="com.aipainting.entity.Task" id="TaskMap">
+        <result property="taskId" column="TASK_ID" jdbcType="VARCHAR"/>
+        <result property="revision" column="REVISION" jdbcType="INTEGER"/>
+        <result property="createdBy" column="CREATED_BY" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="CREATED_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updatedBy" column="UPDATED_BY" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="UPDATED_TIME" jdbcType="TIMESTAMP"/>
+        <result property="modelId" column="MODEL_ID" jdbcType="VARCHAR"/>
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="styleId" column="Style_ID" jdbcType="VARCHAR"/>
+        <result property="samplingMethodId" column="Sampling_method_id" jdbcType="VARCHAR"/>
+        <result property="vaeId" column="Vae_id" jdbcType="VARCHAR"/>
+        <result property="prompt" column="Prompt" jdbcType="VARCHAR"/>
+        <result property="status" column="Status" jdbcType="VARCHAR"/>
+        <result property="resultId" column="Result_ID" jdbcType="VARCHAR"/>
+        <result property="otherprompt" column="OtherPrompt" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通过ID查询单条数据 -->
+    <select id="queryById" resultMap="TaskMap">
+        select
+        TASK_ID,REVISION,CREATED_BY,CREATED_TIME,UPDATED_BY,UPDATED_TIME,MODEL_ID,USER_ID,Style_ID,Sampling_method_id,Vae_id,Prompt,Status,Result_ID,OtherPrompt
+        from TASK
+        where TASK_ID = #{taskId}
+    </select>
+
+    <!--分页查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TaskMap">
+        select
+        TASK_ID,REVISION,CREATED_BY,CREATED_TIME,UPDATED_BY,UPDATED_TIME,MODEL_ID,USER_ID,Style_ID,Sampling_method_id,Vae_id,Prompt,Status,Result_ID,OtherPrompt
+        from TASK
+        <where>
+            <if test="taskId != null and taskId != ''">
+                and TASK_ID = #{taskId}
+            </if>
+            <if test="revision != null and revision != ''">
+                and REVISION = #{revision}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and CREATED_BY = #{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime != ''">
+                and CREATED_TIME = #{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                and UPDATED_BY = #{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime != ''">
+                and UPDATED_TIME = #{updatedTime}
+            </if>
+            <if test="modelId != null and modelId != ''">
+                and MODEL_ID = #{modelId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and USER_ID = #{userId}
+            </if>
+            <if test="styleId != null and styleId != ''">
+                and Style_ID = #{styleId}
+            </if>
+            <if test="samplingMethodId != null and samplingMethodId != ''">
+                and Sampling_method_id = #{samplingMethodId}
+            </if>
+            <if test="vaeId != null and vaeId != ''">
+                and Vae_id = #{vaeId}
+            </if>
+            <if test="prompt != null and prompt != ''">
+                and Prompt = #{prompt}
+            </if>
+            <if test="status != null and status != ''">
+                and Status = #{status}
+            </if>
+            <if test="resultId != null and resultId != ''">
+                and Result_ID = #{resultId}
+            </if>
+            <if test="otherprompt != null and otherprompt != ''">
+                and OtherPrompt = #{otherprompt}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from TASK
+        <where>
+            <if test="taskId != null and taskId != ''">
+                and TASK_ID = #{taskId}
+            </if>
+            <if test="revision != null and revision != ''">
+                and REVISION = #{revision}
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                and CREATED_BY = #{createdBy}
+            </if>
+            <if test="createdTime != null and createdTime != ''">
+                and CREATED_TIME = #{createdTime}
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                and UPDATED_BY = #{updatedBy}
+            </if>
+            <if test="updatedTime != null and updatedTime != ''">
+                and UPDATED_TIME = #{updatedTime}
+            </if>
+            <if test="modelId != null and modelId != ''">
+                and MODEL_ID = #{modelId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and USER_ID = #{userId}
+            </if>
+            <if test="styleId != null and styleId != ''">
+                and Style_ID = #{styleId}
+            </if>
+            <if test="samplingMethodId != null and samplingMethodId != ''">
+                and Sampling_method_id = #{samplingMethodId}
+            </if>
+            <if test="vaeId != null and vaeId != ''">
+                and Vae_id = #{vaeId}
+            </if>
+            <if test="prompt != null and prompt != ''">
+                and Prompt = #{prompt}
+            </if>
+            <if test="status != null and status != ''">
+                and Status = #{status}
+            </if>
+            <if test="resultId != null and resultId != ''">
+                and Result_ID = #{resultId}
+            </if>
+            <if test="otherprompt != null and otherprompt != ''">
+                and OtherPrompt = #{otherprompt}
+            </if>
+        </where>
+    </select>
+
+    <!--新增数据-->
+    <insert id="insert" keyProperty="TASK_ID" useGeneratedKeys="true">
+        insert into TASK(TASK_ID,REVISION,CREATED_BY,CREATED_TIME,UPDATED_BY,UPDATED_TIME,MODEL_ID,USER_ID,Style_ID,Sampling_method_id,Vae_id,Prompt,Status,Result_ID,OtherPrompt)
+        values (#{taskId},#{revision},#{createdBy},#{createdTime},#{updatedBy},#{updatedTime},#{modelId},#{userId},#{styleId},#{samplingMethodId},#{vaeId},#{prompt},#{status},#{resultId},#{otherprompt})
+    </insert>
+
+    <!-- 批量新增数据 -->
+    <insert id="insertBatch" keyProperty="TASK_ID" useGeneratedKeys="true">
+        insert into TASK(TASK_ID,REVISION,CREATED_BY,CREATED_TIME,UPDATED_BY,UPDATED_TIME,MODEL_ID,USER_ID,Style_ID,Sampling_method_id,Vae_id,Prompt,Status,Result_ID,OtherPrompt)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.taskId},#{entity.revision},#{entity.createdBy},#{entity.createdTime},#{entity.updatedBy},#{entity.updatedTime},#{entity.modelId},#{entity.userId},#{entity.styleId},#{entity.samplingMethodId},#{entity.vaeId},#{entity.prompt},#{entity.status},#{entity.resultId},#{entity.otherprompt})
+        </foreach>
+    </insert>
+
+    <!-- 批量新增或按主键更新数据 -->
+    <insert id="insertOrUpdateBatch" keyProperty="TASK_ID" useGeneratedKeys="true">
+        insert into TASK(TASK_ID,REVISION,CREATED_BY,CREATED_TIME,UPDATED_BY,UPDATED_TIME,MODEL_ID,USER_ID,Style_ID,Sampling_method_id,Vae_id,Prompt,Status,Result_ID,OtherPrompt)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.taskId},#{entity.revision},#{entity.createdBy},#{entity.createdTime},#{entity.updatedBy},#{entity.updatedTime},#{entity.modelId},#{entity.userId},#{entity.styleId},#{entity.samplingMethodId},#{entity.vaeId},#{entity.prompt},#{entity.status},#{entity.resultId},#{entity.otherprompt})
+        </foreach>
+        on duplicate key update
+        TASK_ID=values(TASK_ID),
+        REVISION=values(REVISION),
+        CREATED_BY=values(CREATED_BY),
+        CREATED_TIME=values(CREATED_TIME),
+        UPDATED_BY=values(UPDATED_BY),
+        UPDATED_TIME=values(UPDATED_TIME),
+        MODEL_ID=values(MODEL_ID),
+        USER_ID=values(USER_ID),
+        Style_ID=values(Style_ID),
+        Sampling_method_id=values(Sampling_method_id),
+        Vae_id=values(Vae_id),
+        Prompt=values(Prompt),
+        Status=values(Status),
+        Result_ID=values(Result_ID),
+        OtherPrompt=values(OtherPrompt)
+    </insert>
+
+    <!-- 更新数据 -->
+    <update id="update">
+        update TASK
+        <set>
+            <if test="taskId != null and taskId != ''">
+                TASK_ID = #{taskId},
+            </if>
+            <if test="revision != null and revision != ''">
+                REVISION = #{revision},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                CREATED_BY = #{createdBy},
+            </if>
+            <if test="createdTime != null and createdTime != ''">
+                CREATED_TIME = #{createdTime},
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                UPDATED_BY = #{updatedBy},
+            </if>
+            <if test="updatedTime != null and updatedTime != ''">
+                UPDATED_TIME = #{updatedTime},
+            </if>
+            <if test="modelId != null and modelId != ''">
+                MODEL_ID = #{modelId},
+            </if>
+            <if test="userId != null and userId != ''">
+                USER_ID = #{userId},
+            </if>
+            <if test="styleId != null and styleId != ''">
+                Style_ID = #{styleId},
+            </if>
+            <if test="samplingMethodId != null and samplingMethodId != ''">
+                Sampling_method_id = #{samplingMethodId},
+            </if>
+            <if test="vaeId != null and vaeId != ''">
+                Vae_id = #{vaeId},
+            </if>
+            <if test="prompt != null and prompt != ''">
+                Prompt = #{prompt},
+            </if>
+            <if test="status != null and status != ''">
+                Status = #{status},
+            </if>
+            <if test="resultId != null and resultId != ''">
+                Result_ID = #{resultId},
+            </if>
+            <if test="otherprompt != null and otherprompt != ''">
+                OtherPrompt = #{otherprompt},
+            </if>
+        </set>
+        where TASK_ID = #{taskId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from TASK where TASK_ID = #{taskId}
+    </delete>
+</mapper>

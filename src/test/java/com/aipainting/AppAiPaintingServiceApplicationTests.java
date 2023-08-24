@@ -24,4 +24,5 @@ class AppAiPaintingServiceApplicationTests {
         String img = imgService.getImg(reqGetImg);
         System.out.println(img);
     }
+
 }
